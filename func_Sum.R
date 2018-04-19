@@ -7,4 +7,8 @@
 #output
 #A vector of values of total precipitation for each weather station for the year
 
+#apply function use columns (second dimensions) with sum as function
+apply(eet, 2, sum, trim = .008)
+
+
 

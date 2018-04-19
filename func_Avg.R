@@ -5,7 +5,7 @@
 #eet    a matrix of the precipitation for each day (rows) at each weather station (columns)
 #
 #output
-#a single value for the average of the total precipitation for all days at all weather stations from eet
+#a single value for the average of all precipitation values for all days at all weather stations from eet
 
 
 
