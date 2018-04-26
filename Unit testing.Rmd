@@ -5,6 +5,7 @@ date: "April 12, 2018"
 output: html_document
 ---
 ```{r, cache=TRUE}
+#rm(list = ls()) clear environment
 #El Nino years bringing in api for years 1982-1997-2015
 #1982-83 CA, variables1
 #pcpn data
@@ -22,10 +23,19 @@ eet <- sapply(json_data$data$data, cbind)
 eet[eet=="M"] <- NA
 trace <- runif(1000,0.0001,.0099)
 eet[eet=="T"] <- sample(trace,replace = T, size = 1)
-class(eet) <- "numeric"
 dates <- seq.Date(from=lubridate::ymd(sdate), to=lubridate::ymd(edate), by = "1 days")
-year <- as.factor(lubridate::year(dates))
+#eet convert values to numeric
+eet <- matrix(as.numeric(eet), nrow(eet), ncol(eet))
+#change eet to dataframe
+eet<- as.data.frame(eet)
+#put in the locations for weather stations
+names(eet) <- paste("location",json_data$data$meta$ll, sep="_")
+#add a column for dates
+eet<- data.frame(date=dates,eet)
 
+```
+
+```{r, cache=TRUE}
 #1997-98 CA2, variables2
 #pcpn data
 CA2.url <- 'http://data.rcc-acis.org/MultiStnData?params=%7B%22state%22%3A%22ca%22%2C%22sdate%22%3A%221997-01-01%22%2C%22edate%22%3A%221998-01-01%22%2C%22elems%22%3A%22pcpn%22%2C%22meta%22%3A%22ll%22%7D'
@@ -41,10 +51,20 @@ ens <- sapply(json_data2$data$data, cbind)
 ens[ens=="M"] <- NA
 trace <- runif(1000,0.0001,.0099)
 ens[ens=="T"] <- sample(trace,replace = T, size = 1)
-class(ens) <- "numeric"
-dates <- seq.Date(from=lubridate::ymd(sdate), to=lubridate::ymd(edate), by = "1 days")
-year <- as.factor(lubridate::year(dates))
+dates2 <- seq.Date(from=lubridate::ymd(sdate2), to=lubridate::ymd(edate2), by = "1 days")
+#need to convert to "numeric"
+ens<-matrix(as.numeric(ens), nrow(ens), ncol(ens))
+#convert the matrix to dataframe to be able to put in locations
+ens<-as.data.frame(ens)
+#put the locations of each weather station
+names(ens) <-paste("location",json_data2$data$meta$ll, sep="_")
+#need dates in own column 
+ens <- data.frame(date=dates2,ens)
+#ens is in dataframe and has numeric values
 
+```
+
+```{r, cache=TRUE}
 #2015-16 CA3, variables3
 #Pcpn data
 CA3.url<- 'http://data.rcc-acis.org/MultiStnData?params=%7B%22state%22%3A%22ca%22%2C%22sdate%22%3A%222015-01-01%22%2C%22edate%22%3A%222016-01-01%22%2C%22elems%22%3A%22pcpn%22%2C%22meta%22%3A%22ll%22%7D'
@@ -60,12 +80,22 @@ eft <- sapply(json_data3$data$data, cbind)
 eft[eft=="M"] <- NA
 trace <- runif(1000,0.0001,.0099)
 eft[eft=="T"] <- sample(trace,replace = T, size = 1)
-class(eft) <- "numeric"
-dates <- seq.Date(from=lubridate::ymd(sdate), to=lubridate::ymd(edate), by = "1 days")
-year <- as.factor(lubridate::year(dates))
+dates3 <- seq.Date(from=lubridate::ymd(sdate3), to=lubridate::ymd(edate3), by = "1 days")
+eft<- matrix(as.numeric(eft), nrow(eft), ncol(eft))
+#eft values are converted into numeric values
+eft<-as.data.frame(eft)
+#need location for each station
+names(eft) <- paste("location",json_data3$data$meta$ll, sep="_")
+#Dates as own column
+eft <- data.frame(date=dates3,eft)
+#eft in dataframe with numeric values
 
+```
+
+
+```{r, cache=TRUE}
 #Next three are non El Nino 4-6
-CA4.url<- 'http://data.rcc-acis.org/MultiStnData?params=%7B%22state%22%3A%22ca%22%2C%22sdate%22%3A%221983-01-01%22%2C%22edate%22%3A%221984-01-01%22%2C%22elems%22%3A%22pcpn%22%7D'
+CA4.url<- 'http://data.rcc-acis.org/MultiStnData?params=%7B%22state%22%3A%22ca%22%2C%22sdate%22%3A%221983-01-01%22%2C%22edate%22%3A%221984-01-01%22%2C%22elems%22%3A%22pcpn%22%2C%22meta%22%3A%22ll%22%7D'
 test4 <- httr::GET(url=CA4.url)
 dat4 <- httr::content(test4, "text","application/json", encoding="UTF-8")
 json_data4 <- jsonlite::fromJSON(dat4)
@@ -75,13 +105,21 @@ edate4 <- as.Date("1984-01-01")
 FN4 <- paste0("rds/","_",sdate,".rds")
 saveRDS(json_data4, file= FN4)
 net <- sapply(json_data4$data$data, cbind)
-net[ns=="M"] <- NA
+net[net=="M"] <- NA
 trace <- runif(1000,0.0001,.0099)
-net[ft=="T"] <- sample(trace,replace = T, size = 1)
-class(net) <- "numeric"
-dates <- seq.Date(from=lubridate::ymd(sdate), to=lubridate::ymd(edate), by = "1 days")
-year <- as.factor(lubridate::year(dates))
+net[net=="T"] <- sample(trace,replace = T, size = 1)
+dates4 <- seq.Date(from=lubridate::ymd(sdate4), to=lubridate::ymd(edate4), by = "1 days")
+#change to matrix and get numeric values
+net<- matrix(as.numeric(net), nrow(net), ncol(net))
+#need net in dataframe
+net<-as.data.frame(net)
+#locations before dates
+names(net) <- paste("location",json_data4$data$meta$ll, sep="_")
+#now dates for net
+net <- data.frame(date=dates4,net)
+```
 
+```{r, cache=TRUE}
 CA5.url <- 'http://data.rcc-acis.org/MultiStnData?params=%7B%22state%22%3A%22ca%22%2C%22sdate%22%3A%221998-01-01%22%2C%22edate%22%3A%221999-01-01%22%2C%22elems%22%3A%22pcpn%22%7D'
 test5 <- httr::GET(url=CA5.url)
 dat5 <- httr::content(test5, "text","application/json", encoding="UTF-8")
@@ -92,66 +130,44 @@ edate5 <- as.Date("1999-01-01")
 FN5 <- paste0("rds/","_",sdate,".rds")
 saveRDS(json_data5, file= FN5)
 nne <- sapply(json_data5$data$data, cbind)
-nne[ns=="M"] <- NA
+nne[nne=="M"] <- NA
 trace <- runif(1000,0.0001,.0099)
-nne[ft=="T"] <- sample(trace,replace = T, size = 1)
-class(nne) <- "numeric"
-dates <- seq.Date(from=lubridate::ymd(sdate), to=lubridate::ymd(edate), by = "1 days")
-year <- as.factor(lubridate::year(dates))
+nne[nne=="T"] <- sample(trace,replace = T, size = 1)
+dates5 <- seq.Date(from=lubridate::ymd(sdate5), to=lubridate::ymd(edate5), by = "1 days")
+#Matrix for nne making values numeric
+nne<-matrix(as.numeric(nne), nrow(nne), ncol(nne))
+#need dataframe to put in dates and locations
+nne<-as.data.frame(nne)
+#locations for nne
+names(nne) <- paste("location",json_data$data$meta$ll, sep="_")
+#add the dates
+nne <- data.frame(date=dates5,nne)
 
-CA6.url<- 'http://data.rcc-acis.org/MultiStnData?params=%7B%22state%22%3A%22ca%22%2C%22sdate%22%3A%222016-01-01%22%2C%22edate%22%3A%222017-01-01%22%2C%22elems%22%3A%22pcpn%22%7D'
+```
+
+```{r, cache=TRUE}
+CA6.url<- 'http://data.rcc-acis.org/MultiStnData?params=%7B%22state%22%3A%22ca%22%2C%22sdate%22%3A%222016-01-01%22%2C%22edate%22%3A%222016-12-31%22%2C%22elems%22%3A%22pcpn%22%2C%22meta%22%3A%22ll%22%7D'
 test6 <- httr::GET(url=CA6.url)
 dat6 <- httr::content(test6, "text","application/json", encoding="UTF-8")
 json_data6 <- jsonlite::fromJSON(dat6)
 ifelse(dir.exists("rds"), "dir already exists", dir.create("rds"))
 sdate6 <- as.Date("2016-01-01")
-edate6 <- as.Date("2017-01-01")
+edate6 <- as.Date("2016-12-31")
 FN6 <- paste0("rds/","_",sdate,".rds")
-saveRDS(json_data6, file= FN5)
+saveRDS(json_data6, file= FN6)
 nst <- sapply(json_data6$data$data, cbind)
-nst[ns=="M"] <- NA
+nst[nst=="M"] <- NA
 trace <- runif(1000,0.0001,.0099)
-nst[ft=="T"] <- sample(trace,replace = T, size = 1)
-class(nst) <- "numeric"
-dates <- seq.Date(from=lubridate::ymd(sdate), to=lubridate::ymd(edate), by = "1 days")
-year <- as.factor(lubridate::year(dates))
-
-
-
-#Location of stations
-ll.url <- 'http://data.rcc-acis.org/StnMeta?params=%7B%22state%22%3A%22ca%22%2C%22meta%22%3A%22ll%22%2C%22sdate%22%3A%221982-01-01%22%2C%22edate%22%3A%222015-01-01%22%7D'
-test4 <- httr::GET(url=ll.url)
-dat4 <- httr::content(test4, "text","application/json", encoding = "UTF-8")
-json_data4 <- jsonlite::fromJSON(dat4)
-ifelse(dir.exists("rds"), "dir already exists", dir.create("rds"))
-saveRDS(json_data4, file = FN4)
-ll <- sapply(json_data4$meta$ll, cbind)
-class(ll) <- "numeric"
-
-
-#trying to get both lat and long with precipitation
-#1982-3
-both.url <- 'http://data.rcc-acis.org/MultiStnData?params=%7B%22state%22%3A%22ca%22%2C%22sdate%22%3A%221982-01-01%22%2C%22edate%22%3A%221983-01-01%22%2C%22elems%22%3A%22pcpn%22%2C%22meta%22%3A%22ll%22%7D'
-both <- httr::GET(url=CA.url)
-dd <- httr::content(both, "text","application/json", encoding="UTF-8")
-json_data0 <- jsonlite::fromJSON(dd)
-ifelse(dir.exists("rds"), "dir already exists", dir.create("rds"))
-sdate <- as.Date("1982-01-01")
-edate <- as.Date("1983-01-01")
-FN1 <- paste0("rds/","_",sdate,".rds")
-saveRDS(json_data0, file= FN1)
-eet <- sapply(json_data0$data$data, cbind)
-eet[eet=="M"] <- NA
-trace <- runif(1000,0.0001,.0099)
-eet[eet=="T"] <- sample(trace,replace = T, size = 1)
-names(eet) <- c("location",paste(json_data$data$data,json_data$data$meta$ll, sep="_"))
-#put in col names as ll
-class(eet) <- "numeric"
-dates <- seq.Date(from=lubridate::ymd(sdate), to=lubridate::ymd(edate), by = "1 days")
-year <- as.factor(lubridate::year(dates))
- eet <- data.frame(date=dates,eet)
-  names(eet) <- paste("location",json_data$data$meta$ll, sep="_")
-
+nst[nst=="T"] <- sample(trace,replace = T, size = 1)
+dates6 <- seq.Date(from=lubridate::ymd(sdate6), to=lubridate::ymd(edate6), by = "1 days")
+#values to numeric
+nst<- matrix(as.numeric(nst), nrow(nst), ncol(nst))
+#change nst to dataframe
+nst<-as.data.frame(nst)
+#locations for nst
+names(nst) <- paste("location",json_data$data$meta$ll, sep="_")
+#add dates for nst
+nst <- data.frame(date=dates6,nst)
 
 ```
 
