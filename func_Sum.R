@@ -7,18 +7,36 @@
 #output
 #A vector of values of total precipitation for each weather station for the year
 
-#apply function use columns (second dimensions) with sum as function
-apply(eet, 1, sum)
+#colSums function use columns (second dimensions) with sum as function
+#El Nino years
+#1982
+aa<-colSums(Filter(is.numeric, eet), na.rm=T)
+sum(aa)
 
-gg<-colSums(Filter(is.numeric, eet), na.rm=T)
-hist(gg)
-apply(Filter(is.numeric, eet), na.rm=T, sum)
+#1997
+bb<-colSums(Filter(is.numeric,ens), na.rm=T)
+sum(bb)
 
-#x <- cbind(eet$x = 3, x2 = c(4:1, 2:5))
-#dimnames(x)[[1]] <- letters[1:8]
-apply(x, 2, mean, trim = .2)
-col.sums <- apply(x, 2, sum)
-row.sums <- apply(x, 1, sum)
-rbind(cbind(x, Rtot = row.sums), Ctot = c(col.sums, sum(col.sums)))
+#2015
+cc<-colSums(Filter(is.numeric,eft), na.rm=T)
+sum(cc)
+
+#Non-El Nino years
+#1983
+dd<-colSums(Filter(is.numeric,net), na.rm=T)
+sum(dd)
+
+#1998
+ee<-colSums(Filter(is.numeric,nne), na.rm=T)
+sum(ee)
+
+#2016
+ff<-colSums(Filter(is.numeric,nst), na.rm=T)
+sum(ff)
+
+
+
+
+rbind(cbind(Filter(x, is.numeric), Rtot = row.sums), Ctot = col.sums )
 
 

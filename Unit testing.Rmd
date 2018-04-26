@@ -139,7 +139,7 @@ nne<-matrix(as.numeric(nne), nrow(nne), ncol(nne))
 #need dataframe to put in dates and locations
 nne<-as.data.frame(nne)
 #locations for nne
-names(nne) <- paste("location",json_data$data$meta$ll, sep="_")
+names(nne) <- paste("location",json_data5$data$meta$ll, sep="_")
 #add the dates
 nne <- data.frame(date=dates5,nne)
 
@@ -165,7 +165,7 @@ nst<- matrix(as.numeric(nst), nrow(nst), ncol(nst))
 #change nst to dataframe
 nst<-as.data.frame(nst)
 #locations for nst
-names(nst) <- paste("location",json_data$data$meta$ll, sep="_")
+names(nst) <- paste("location",json_data6$data$meta$ll, sep="_")
 #add dates for nst
 nst <- data.frame(date=dates6,nst)
 
