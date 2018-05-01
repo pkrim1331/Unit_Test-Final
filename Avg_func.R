@@ -10,32 +10,32 @@
 #El Nino years
 #1982
 zz<-apply(Filter(is.numeric, eet), 2, mean, na.rm=T)
-mean(zz)
+z<- mean(zz)
 
 #1997
 yy<-apply(Filter(is.numeric,ens), 2, mean, na.rm=T)
-mean(yy)
+y<- mean(yy)
 
 #2015
-eft<- eft[,-437]
 #Previous line is fragile because data can be put into this column with updates from the ACIS website, when there is no data there now.
+eft<- eft[,-470]
 xx<-apply(Filter(is.numeric,eft), 2, mean, na.rm=T)
-mean(xx)
+x<- mean(xx)
 
 #Non-El Nino years
 #1983
 ww<-apply(Filter(is.numeric,net), 2, mean, na.rm=T)
-mean(ww)
+w<- mean(ww)
 
 #1998
-vv<-apply(Filter(is.numeric,nne), 2, mean, na.rm=T)
-mean(vv)
+v<-apply(Filter(is.numeric,nne), 2, mean, na.rm=T)
+v<- mean(v)
 
 #2016
-nst<- nst[,-484]
 #Previous line is fragile because data can be put into this column with updates from the ACIS website, when there is no data there now.
+nst<- nst[,-486]
 uu<-apply(Filter(is.numeric,nst), 2, mean, na.rm=T)
-mean(uu)
-
-
-
+u<- mean(uu)
+avg<- list(c(z,w,y,v,x,u))
+print(avg)
+#These values are the average precipitation for each day of each year across all of California. 

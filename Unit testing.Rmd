@@ -5,7 +5,7 @@ date: "April 12, 2018"
 output: html_document
 ---
 ```{r, cache=TRUE}
-#rm(list = ls()) clear environment
+#rm(list = ls())clear environment
 #El Nino years bringing in api for years 1982-1997-2015
 #1982-83 CA, variables1
 #pcpn data
