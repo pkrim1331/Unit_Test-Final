@@ -34,8 +34,8 @@ ee<-sum(e)
 f<-colSums(Filter(is.numeric,nst), na.rm=T)
 ff<-sum(f)
 
-all<-list(c(aa,dd,bb,ee,cc,ff))
-print(all)
+total<-list(c(aa,dd,bb,ee,cc,ff))
+print(total)
 #These values are the total amount of precipitation in inches throughout the whole year for every year.
 
 
