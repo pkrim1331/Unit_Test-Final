@@ -1,0 +1,73 @@
+---
+title: "Final_tests"
+author: "Patrick Krim"
+date: "5/10/2018"
+output: html_document
+---
+#Finding the average precipitation for each year
+```{r}
+#El Nino years
+#1982
+zz<-apply(Filter(is.numeric, eet), 2, mean, na.rm=T)
+z<- mean(zz)
+#1997
+yy<-apply(Filter(is.numeric,ens), 2, mean, na.rm=T)
+y<- mean(yy)
+#2015
+#Previous line is fragile because data can be put into this column with updates from the ACIS website, when there is no data there now.
+eft<- eft[,-782]
+xx<-apply(Filter(is.numeric,eft), 2, mean, na.rm=T)
+x<- mean(xx)
+#Non-El Nino years
+#1983
+ww<-apply(Filter(is.numeric,net), 2, mean, na.rm=T)
+w<- mean(ww)
+#1998
+v<-apply(Filter(is.numeric,nne), 2, mean, na.rm=T)
+v<- mean(v)
+#2016
+#Previous line is fragile because data can be put into this column with updates from the ACIS website, when there is no data there now.
+nst <- nst[,-486]
+uu<-apply(Filter(is.numeric,nst), 2, mean, na.rm=T)
+u<- mean(uu)
+avg<- list(c(z,w,y,v,x,u))
+print(avg)
+```
+#Finding the sum of all precipitation across all weather stations
+```{r}
+#El Nino years
+#1982
+a<-colSums(Filter(is.numeric, eet), na.rm=T)
+aa<- sum(a)
+#1997
+b<-colSums(Filter(is.numeric,ens), na.rm=T)
+bb<-sum(b)
+#2015
+c<-colSums(Filter(is.numeric,eft), na.rm=T)
+cc<-sum(c)
+#Non-El Nino years
+#1983
+d<-colSums(Filter(is.numeric,net), na.rm=T)
+dd<-sum(d)
+#1998
+e<-colSums(Filter(is.numeric,nne), na.rm=T)
+ee<-sum(e)
+#2016
+f<-colSums(Filter(is.numeric,nst), na.rm=T)
+ff<-sum(f)
+total<-list(c(aa,dd,bb,ee,cc,ff))
+print(total)
+```
+#Last is the plotting of the data 
+```{r}
+yr<-c(1982, 1983, 1997, 1998, 2015, 2016)
+avgDataframe<-as.data.frame(avg, row.names = yr, col.names = "Avg daily pcpn", sep = "")
+print(avgDataframe)
+#Average daily precipitation for each year, alternating El Nino year and non-El Nino year
+scatter.smooth(avgDataframe, span = 2/3, degree = 1, family = "symmetric", xlab = "Years", ylab = "Avg Daily Precipitation (in.)", evaluation = 6)
+totDataframe<- as.data.frame(total, row.names = yr, col.names = "Total Precipitation", sep = "")
+print(totDataframe)
+#Total precipitation for each year also alternating El Nino years and non-El Nino years
+Tpcpn<- as.matrix(totDataframe)
+barplot(Tpcpn, width = 1, names.arg = yr, space = 1, axisnames = T, axis.lty = 6, beside = T, ylab = "Total Precipitation (in.)", xlab = "Years")
+```
