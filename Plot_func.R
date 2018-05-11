@@ -12,10 +12,8 @@ totDataframe<- as.data.frame(total, row.names = yr, col.names = "Total Precipita
 print(totDataframe)
 
 #Total precipitation for each year also alternating El Nino years and non-El Nino years
-scatter.smooth(totDataframe, span = 2/3, degree = 1, family = "symmetric", xlab = "Years", ylab = "Total Prcipitation (in.)")
 
 Tpcpn<- as.matrix(totDataframe)
 barplot(Tpcpn, width = 1, names.arg = yr, space = 1, axisnames = T, axis.lty = 6, beside = T, ylab = "Total Precipitation (in.)", xlab = "Years")
-?barplot
 
-?scatter.smooth
+

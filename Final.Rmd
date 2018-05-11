@@ -2,8 +2,15 @@
 title: "Tests"
 author: "Patrick Krim"
 date: "May 8, 2018"
-output: html_document
+output: 
+    html_document: default
+    pdf_document: default
 ---
+```{r, cache=TRUE, echo=FALSE}
+source("Unit_Testing.Rmd")
+
+```
+
 ```{r analyze_data, echo=T,cache=T, cache.extra=list(mtime("Unit_Testing.Rmd"),mtime("Avg_func.R"),mtime("Sum_func.R"),mtime("Plot_func.R"))}
 dat<-scan("Unit_Testing.Rmd")
 source("Avg_func.R")
@@ -13,7 +20,3 @@ source("Plot_func.R")
 ```
 
 
-
-
-
-```
